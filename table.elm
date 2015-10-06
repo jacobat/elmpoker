@@ -1,6 +1,5 @@
 module Table where
 
-import Deck exposing (Deck)
 import Array exposing (Array)
 
 type alias Money = Int
@@ -18,10 +17,6 @@ type alias Table = {
   pot : Int
 }
 
-type alias Game = {
-  deck : Deck
-}
-
 newTable : Int -> Table
 newTable seatCount =
   Table (Array.repeat seatCount Nothing) 0
@@ -36,7 +31,8 @@ availableSeatIndex table =
         Nothing -> Nothing
         Just (index, _) -> Just index
 
+join : Table -> Player -> Table
 join table player =
   case availableSeatIndex table of
     Nothing -> table
-    Just index -> { table | seats <- Array.set index player table.seats }
+    Just index -> { table | seats <- Array.set index (Just player) table.seats }
